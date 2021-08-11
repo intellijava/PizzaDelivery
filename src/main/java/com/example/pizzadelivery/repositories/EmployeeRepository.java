@@ -1,4 +1,4 @@
-package repositories;
+package com.example.pizzadelivery.repositories;
 
 import com.example.pizzadelivery.entities.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
