@@ -19,17 +19,20 @@ public class Pizza implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID", nullable = false)
-    private Integer ID;
+    private Integer id;
+
+    @Column(name = "PRICE", nullable = false)
+    private Integer price;
 
     @Column(name = "DIAMETER")
-    private String DIAMETER;
+    private Integer diameter;
 
-    @Column(name = "SAUCE")
-    private String SAUCE;
+    @Column(name = "INGREDIENTS")
+    private String ingredients;
 
     @Column(name = "TYPE")
-    private String TYPE;
+    private String type;
 
 }

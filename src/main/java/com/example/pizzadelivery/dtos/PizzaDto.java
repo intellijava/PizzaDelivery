@@ -10,8 +10,9 @@ import lombok.NoArgsConstructor;
 public class PizzaDto {
 
     public Integer id;
-    public String diameter;
-    public String sauce;
+    public Integer price;
+    public Integer diameter;
+    public String ingredients;
     public String type;
 
 }

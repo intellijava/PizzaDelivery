@@ -27,28 +27,42 @@ public class PizzaRestController {
 
 
     @GetMapping("/pizzas")
-    List< Pizza > getAllPizzas(){
+    List< Pizza > getAllPizzas() {
         return pizzaRepository.findAll();
     }
 
     @GetMapping("/pizzas/{id}")
-    Optional<Pizza> getOnePizza(@PathVariable("id")Integer id){
+    Optional< Pizza > getOnePizza(@PathVariable("id") Integer id) {
         return pizzaRepository.findById(id);
     }
 
-//    @GetMapping("/search/{name}")
+    //    @GetMapping("/search/{name}")
 //    Pizza findAPizza(String name){
 //        return pizzaRepository.findByName(name);
 //    }
+//    @PutMapping("/pizzas/{id}")
+//    public Optional< Pizza > updateUser(
+//            @PathVariable(value = "id") Long id,
+//            @Valid @RequestBody Pizza userDetails) throws ResourceNotFoundException {
+//        Pizza user = pizzaRepository.findById(id)
+//                .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + id));
+//
+//        user.setEmailId(userDetails.getEmailId());
+//        user.setLastName(userDetails.getLastName());
+//        user.setFirstName(userDetails.getFirstName());
+//        user.setUpdatedAt(new Date());
+//        final User updatedUser = userRepository.save(user);
+//        return ResponseEntity.ok(updatedUser);
+//    }
 
     @PostMapping("/pizzas")
-    PizzaDto saveAPizza(@RequestBody PizzaDto pizzaDto){
+    PizzaDto saveAPizza(@RequestBody PizzaDto pizzaDto) {
         return PizzaMapper.entityToDto(pizzaRepository.save(modelMapper.map(pizzaDto, Pizza.class)));
     }
 
 
-    @DeleteMapping ("/pizzas/{id}")
-    void deleteOnePizza(@PathVariable("id")Integer id){
+    @DeleteMapping("/pizzas/{id}")
+    void deleteOnePizza(@PathVariable("id") Integer id) {
         pizzaRepository.deleteById(id);
     }
 }
