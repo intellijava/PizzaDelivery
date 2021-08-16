@@ -3,12 +3,12 @@ package com.example.pizzadelivery.controllers;
 import com.example.pizzadelivery.dtos.PizzaDto;
 import com.example.pizzadelivery.entities.Pizza;
 import com.example.pizzadelivery.mapper.PizzaMapper;
-import org.assertj.core.util.Preconditions;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
-import org.springframework.web.bind.annotation.*;
 import com.example.pizzadelivery.repositories.PizzaRepository;
+import org.modelmapper.ModelMapper;
+import javax.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -40,26 +40,24 @@ public class PizzaRestController {
 //    Pizza findAPizza(String name){
 //        return pizzaRepository.findByName(name);
 //    }
-//    @PutMapping("/pizzas/{id}")
-//    public Optional< Pizza > updateUser(
-//            @PathVariable(value = "id") Long id,
-//            @Valid @RequestBody Pizza userDetails) throws ResourceNotFoundException {
-//        Pizza user = pizzaRepository.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException("User not found on :: " + id));
-//
-//        user.setEmailId(userDetails.getEmailId());
-//        user.setLastName(userDetails.getLastName());
-//        user.setFirstName(userDetails.getFirstName());
-//        user.setUpdatedAt(new Date());
-//        final User updatedUser = userRepository.save(user);
-//        return ResponseEntity.ok(updatedUser);
-//    }
+    @PutMapping("/pizzas/{id}")
+    public PizzaDto updatePizza(
+            @PathVariable(value = "id") Integer id,
+            @Valid @RequestBody Pizza pizzaDetails) throws ResourceNotFoundException {
+        Pizza pizza = pizzaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Pizza not found on :: " + id));
+
+        pizza.setDiameter(pizzaDetails.getDiameter());
+        pizza.setIngredients(pizzaDetails.getIngredients());
+        pizza.setPrice(pizzaDetails.getPrice());
+        pizza.setType(pizzaDetails.getType());
+        return PizzaMapper.entityToDto(pizzaRepository.save(modelMapper.map(pizza, Pizza.class)));
+    }
 
     @PostMapping("/pizzas")
     PizzaDto saveAPizza(@RequestBody PizzaDto pizzaDto) {
         return PizzaMapper.entityToDto(pizzaRepository.save(modelMapper.map(pizzaDto, Pizza.class)));
     }
-
 
     @DeleteMapping("/pizzas/{id}")
     void deleteOnePizza(@PathVariable("id") Integer id) {
