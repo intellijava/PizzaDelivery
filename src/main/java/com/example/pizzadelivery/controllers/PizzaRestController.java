@@ -1,4 +1,4 @@
-package com.example.pizzadelivery;
+package com.example.pizzadelivery.controllers;
 
 import com.example.pizzadelivery.dtos.PizzaDto;
 import com.example.pizzadelivery.entities.Pizza;
