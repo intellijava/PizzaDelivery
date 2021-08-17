@@ -36,10 +36,15 @@ public class PizzaRestController {
         return pizzaRepository.findById(id);
     }
 
-    //    @GetMapping("/search/{name}")
-//    Pizza findAPizza(String name){
-//        return pizzaRepository.findByName(name);
-//    }
+    @GetMapping("/typeSearch/{type}")
+    List< Pizza > findPizzasByType(@PathVariable("type")String type){
+        return pizzaRepository.findAllByType(type);
+    }
+
+    @GetMapping("/sizeSearch/{diameter}")
+    List< Pizza > findPizzasByDiameter(@PathVariable("diameter")Integer diameter){
+        return pizzaRepository.findAllByDiameter(diameter);
+    }
     @PutMapping("/pizzas/{id}")
     public PizzaDto updatePizza(
             @PathVariable(value = "id") Integer id,
