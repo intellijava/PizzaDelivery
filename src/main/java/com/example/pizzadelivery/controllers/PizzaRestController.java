@@ -5,26 +5,40 @@ import com.example.pizzadelivery.entities.Pizza;
 import com.example.pizzadelivery.mapper.PizzaMapper;
 import com.example.pizzadelivery.repositories.PizzaRepository;
 import org.modelmapper.ModelMapper;
+
 import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 public class PizzaRestController {
 
+    @Autowired
     private final PizzaRepository pizzaRepository;
     @Autowired
     private final ModelMapper modelMapper;
+
+    @Value("${spring.cloud.consul.discovery.instance-id}")
+    private String id;
 
     public PizzaRestController(PizzaRepository pizzaRepository, ModelMapper modelMapper) {
         this.pizzaRepository = pizzaRepository;
         this.modelMapper = modelMapper;
     }
 
+    @GetMapping("/pizzas/test")
+    public String test() {
+        return id;
+    }
 
     @GetMapping("/pizzas")
     List< Pizza > getAllPizzas() {
@@ -36,15 +50,31 @@ public class PizzaRestController {
         return pizzaRepository.findById(id);
     }
 
-    @GetMapping("/typeSearch/{type}")
-    List< Pizza > findPizzasByType(@PathVariable("type")String type){
-        return pizzaRepository.findAllByType(type);
+    @GetMapping("/pizzas/search")
+    public List< Pizza > findPizzasByIngredients(@RequestParam Map< String, String > requestParams) {
+        List list = new ArrayList<Pizza>();
+        requestParams.entrySet()
+                .forEach(
+                        pair -> {
+                            if (pair.getValue() != null) {
+                                if (pair.getKey().equals("ingredients")) {
+                                    list.addAll(pizzaRepository.findAllByIngredientsContaining(pair.getValue()));
+                                }
+                                if (pair.getKey().equals("diameter")) {
+                                    list.addAll(pizzaRepository.findAllByDiameter(Integer.parseInt(pair.getValue())));
+                                }
+                                if (pair.getKey().equals("type")) {
+                                    list.addAll(pizzaRepository.findAllByType(pair.getValue()));
+                                }
+                                if (pair.getKey().equals("price")) {
+                                    list.addAll(pizzaRepository.findAllByPrice(Integer.parseInt(pair.getValue())));
+                                }
+                            }
+                        }
+                );
+       return list.stream().distinct().toList();
     }
 
-    @GetMapping("/sizeSearch/{diameter}")
-    List< Pizza > findPizzasByDiameter(@PathVariable("diameter")Integer diameter){
-        return pizzaRepository.findAllByDiameter(diameter);
-    }
     @PutMapping("/pizzas/{id}")
     public PizzaDto updatePizza(
             @PathVariable(value = "id") Integer id,

@@ -23,7 +23,7 @@ class PizzaEndToEndTest {
     void getPizzasList(){
         HttpClient httpClient = HttpClient.newHttpClient();
         HttpRequest httpRequest = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:"+port+"/pizzas"))
+                .uri(URI.create("http://${MYSQL_HOST:localhost}:"+port+"/pizzas"))
                 .build();
         var httpResponse = httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString()).join();
 

@@ -29,7 +29,7 @@ class PizzaMvcTest {
 
     @Test
     void searchOnePizza() throws Exception {
-        mockMvc.perform(get("/typeSearch/veggie"))
+        mockMvc.perform(get("/pizzas/search?type=veggie"))
                 .andExpect(status().is(200));
     }
 

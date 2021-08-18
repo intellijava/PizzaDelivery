@@ -9,10 +9,12 @@ import java.util.List;
 @Repository
 public interface PizzaRepository extends JpaRepository< Pizza, Integer > {
 
-//    List<Pizza> findAllByNameAndPrice(String name, Integer price);
-
-
-    List< Pizza > findAllByType(String type);
+    List<Pizza> findAllByIngredientsContaining(String ingredient);
 
     List< Pizza > findAllByDiameter(Integer diameter);
+
+    List <Pizza > findAllByType(String type);
+
+    List <Pizza > findAllByPrice(Integer Price);
+
 }

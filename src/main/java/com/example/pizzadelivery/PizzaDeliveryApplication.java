@@ -6,7 +6,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 public class PizzaDeliveryApplication {
@@ -20,7 +19,7 @@ public class PizzaDeliveryApplication {
 
         return (args) -> {
             if (pizzaRepository.count() == 0){
-            pizzaRepository.save(new Pizza(0,90, 8,"ost,tomatsås","Veggie"));
+            pizzaRepository.save(new Pizza(0,90, 8,"ost,tomatoSauce","veggie"));
             }
         };
     }
