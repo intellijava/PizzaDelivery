@@ -19,7 +19,7 @@ public class PizzaDeliveryApplication {
 
         return (args) -> {
             if (pizzaRepository.count() == 0){
-            pizzaRepository.save(new Pizza(0,90, 8,"ost,tomatoSauce","veggie"));
+            pizzaRepository.save(new Pizza(1, 90, 8,"Cheese,tomatoSauce","veggie"));
             }
         };
     }

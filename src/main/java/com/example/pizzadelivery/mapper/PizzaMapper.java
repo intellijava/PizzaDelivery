@@ -2,6 +2,7 @@ package com.example.pizzadelivery.mapper;
 
 import com.example.pizzadelivery.dtos.PizzaDto;
 import com.example.pizzadelivery.entities.Pizza;
+import org.springframework.stereotype.Component;
 
 public class PizzaMapper {
 
